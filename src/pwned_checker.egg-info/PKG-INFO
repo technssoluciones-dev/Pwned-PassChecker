@@ -1,0 +1,224 @@
+Metadata-Version: 2.4
+Name: pwned-checker
+Version: 2.0.0
+Summary: Verificador de contraseñas vulneradas con HIBP + generador seguro
+Author: technssoluciones-dev
+License: MIT License
+        
+        Copyright (c) 2026 technssoluciones-dev
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/technssoluciones-dev/Pwned-PassChecker
+Project-URL: Repository, https://github.com/technssoluciones-dev/Pwned-PassChecker
+Project-URL: Issues, https://github.com/technssoluciones-dev/Pwned-PassChecker/issues
+Keywords: security,password,hibp,breach,cli
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Security
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.31.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: urllib3>=2.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=5.0.0; extra == "dev"
+Requires-Dist: pytest-timeout>=2.3.0; extra == "dev"
+Requires-Dist: mypy>=1.10.0; extra == "dev"
+Requires-Dist: ruff>=0.4.0; extra == "dev"
+Requires-Dist: types-requests>=2.31.0; extra == "dev"
+Dynamic: license-file
+
+# 🔐 Pwned PassChecker v2.0
+
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![HIBP](https://img.shields.io/badge/API-Have%20I%20Been%20Pwned-orange)](https://haveibeenpwned.com/API/v3)
+
+Verificador de contraseñas filtradas con **Have I Been Pwned (HIBP)** usando **k-Anonymity** — nunca se envía la contraseña completa a la API. Incluye generador criptográficamente seguro.
+
+---
+
+## ✨ Características
+
+| Feature | Descripción |
+|---|---|
+| 🔒 k-Anonymity | Solo se envían los primeros 5 chars del hash SHA-1 |
+| 🔄 Retry automático | Reintentos con backoff ante errores de red o rate-limit |
+| 📂 Verificación masiva | Procesa listas de contraseñas desde archivo |
+| 📄 Reportes | Exporta resultados en JSON o CSV |
+| 🎲 Generador seguro | Usa `secrets` (criptográficamente seguro) |
+| 🐳 Docker ready | Imagen lista para contenedores |
+| ✅ Tests incluidos | Suite con pytest + mocks |
+
+---
+
+## 📋 Requisitos
+
+- Python **3.10+**
+- pip
+
+---
+
+## 🚀 Instalación
+
+```bash
+git clone https://github.com/technssoluciones-dev/Pwned-PassChecker.git
+cd Pwned-PassChecker
+
+# Instalación rápida
+python actualizacion_proyecto.py
+
+# O manualmente:
+pip install -r requirements.txt
+pip install -e .
+```
+
+---
+
+## 📖 Uso
+
+### Verificar contraseña (modo interactivo)
+
+```bash
+pwned-checker check -i
+# → Solicita contraseña sin mostrarla en pantalla
+```
+
+### Verificar lista de contraseñas
+
+```bash
+pwned-checker check -f sample_passwords.txt
+pwned-checker check -f mis_claves.txt -o reports/resultado.json
+pwned-checker check -f mis_claves.txt -o reports/resultado.csv
+```
+
+### Generar contraseñas seguras
+
+```bash
+# Una contraseña de 14 caracteres (default)
+pwned-checker generate
+
+# 5 contraseñas de 20 caracteres
+pwned-checker generate -n 5 -l 20
+
+# Sin símbolos, sin ambigüedades (0,O,l,1…)
+pwned-checker generate -n 3 --no-symbols --no-ambiguous
+```
+
+### Scripts heredados (compatibilidad)
+
+```bash
+python pwned_checker.py -i
+python pwned_checker.py -f sample_passwords.txt -o reporte.json
+python password_generator.py -l 18 -n 3
+```
+
+---
+
+## 🐳 Docker
+
+```bash
+# Construir imagen
+docker build -t pwned-checker .
+
+# Verificar interactivamente
+docker run --rm -it pwned-checker check -i
+
+# Verificar archivo y guardar reporte en ./reports/
+docker run --rm -it \
+  -v $(pwd)/reports:/home/appuser/app/reports \
+  -v $(pwd)/sample_passwords.txt:/home/appuser/app/sample_passwords.txt:ro \
+  pwned-checker check -f sample_passwords.txt -o reports/result.json
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Tests básicos
+pytest tests/ -v
+
+# Con cobertura
+pytest tests/ --cov=src/pwned_checker --cov-report=term-missing
+
+# Con Make
+make test
+make test-cov
+```
+
+---
+
+## ⚙️ Configuración
+
+Copia `.env.example` a `.env` y ajusta según necesites:
+
+```bash
+cp .env.example .env
+```
+
+Variables disponibles:
+
+| Variable | Default | Descripción |
+|---|---|---|
+| `HIBP_TIMEOUT` | `10` | Timeout HTTP en segundos |
+| `HIBP_RETRIES` | `3` | Reintentos ante error |
+| `LOG_LEVEL` | `WARNING` | Nivel de log (`DEBUG`/`INFO`/`WARNING`) |
+| `LOG_FILE` | `` | Archivo de log (vacío = solo consola) |
+| `DEFAULT_PWD_LENGTH` | `14` | Longitud default del generador |
+| `REPORTS_DIR` | `reports` | Directorio para reportes |
+
+---
+
+## 🏗️ Arquitectura
+
+```
+src/pwned_checker/
+├── __init__.py     ← versión y metadatos
+├── config.py       ← configuración centralizada (.env)
+├── logger.py       ← logging estructurado
+├── checker.py      ← lógica HIBP con retry y k-Anonymity
+├── generator.py    ← generador criptográfico
+└── cli.py          ← interfaz CLI unificada (entry point)
+```
+
+---
+
+## 🔒 Privacidad y Seguridad
+
+- La contraseña **nunca** sale de tu máquina completa
+- Solo se envían los **primeros 5 caracteres** del hash SHA-1
+- Los reportes enmascaran passwords por defecto (`mi***...`)
+- Usa `--expose-passwords` solo en entornos privados y seguros
+- El generador usa `secrets` del módulo estándar (CSPRNG)
+
+---
+
+## 📄 Licencia
+
+MIT © 2026 [technssoluciones-dev](https://github.com/technssoluciones-dev)

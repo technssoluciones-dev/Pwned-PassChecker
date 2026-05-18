@@ -1,0 +1,39 @@
+# docker-compose.yml — Pwned-PassChecker
+# Nota: La directiva `version` fue eliminada (obsoleta desde Docker Compose v2)
+
+services:
+  pwned-checker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pwned-checker:latest
+    container_name: pwned-checker
+    volumes:
+      - ./reports:/home/appuser/app/reports
+      - ./sample_passwords.txt:/home/appuser/app/sample_passwords.txt:ro
+      - ./.env:/home/appuser/app/.env:ro
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-WARNING}
+      - HIBP_TIMEOUT=${HIBP_TIMEOUT:-10}
+      - HIBP_RETRIES=${HIBP_RETRIES:-3}
+    # stdin_open + tty habilitan el modo interactivo (-i)
+    stdin_open: true
+    tty: true
+
+  # Perfil de desarrollo: monta el código fuente para hot-reload
+  pwned-checker-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pwned-checker:dev
+    container_name: pwned-checker-dev
+    profiles: ["dev"]
+    volumes:
+      - ./src:/home/appuser/app/src:ro
+      - ./tests:/home/appuser/app/tests:ro
+      - ./reports:/home/appuser/app/reports
+      - ./.env:/home/appuser/app/.env:ro
+    environment:
+      - LOG_LEVEL=DEBUG
+    entrypoint: ["python", "-m", "pytest"]
+    command: ["tests/", "-v"]

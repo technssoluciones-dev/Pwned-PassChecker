@@ -1,0 +1,2 @@
+[console_scripts]
+pwned-checker = pwned_checker.cli:main
