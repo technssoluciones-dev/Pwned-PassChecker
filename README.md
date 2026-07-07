@@ -1,43 +1,41 @@
-﻿# ðŸ” Pwned PassChecker v2.0
-
+# 🔐 Pwned PassChecker v2.0
 ![CI](https://github.com/technssoluciones-dev/Pwned-PassChecker/actions/workflows/ci.yml/badge.svg)
-
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![HIBP](https://img.shields.io/badge/API-Have%20I%20Been%20Pwned-orange)](https://haveibeenpwned.com/API/v3)
 
-Verificador de contraseÃ±as filtradas con **Have I Been Pwned (HIBP)** usando **k-Anonymity** â€” nunca se envÃ­a la contraseÃ±a completa a la API. Incluye generador criptogrÃ¡ficamente seguro.
+Verificador de contraseñas filtradas con **Have I Been Pwned (HIBP)** usando **k-Anonymity** — nunca se envía la contraseña completa a la API. Incluye generador criptográficamente seguro.
 
 ---
 
-## âœ¨ CaracterÃ­sticas
+## ✨ Características
 
-| Feature | DescripciÃ³n |
+| Feature | Descripción |
 |---|---|
-| ðŸ”’ k-Anonymity | Solo se envÃ­an los primeros 5 chars del hash SHA-1 |
-| ðŸ”„ Retry automÃ¡tico | Reintentos con backoff ante errores de red o rate-limit |
-| ðŸ“‚ VerificaciÃ³n masiva | Procesa listas de contraseÃ±as desde archivo |
-| ðŸ“„ Reportes | Exporta resultados en JSON o CSV |
-| ðŸŽ² Generador seguro | Usa `secrets` (criptogrÃ¡ficamente seguro) |
-| ðŸ³ Docker ready | Imagen lista para contenedores |
-| âœ… Tests incluidos | Suite con pytest + mocks |
+| 🔒 k-Anonymity | Solo se envían los primeros 5 chars del hash SHA-1 |
+| 🔄 Retry automático | Reintentos con backoff ante errores de red o rate-limit |
+| 📂 Verificación masiva | Procesa listas de contraseñas desde archivo |
+| 📄 Reportes | Exporta resultados en JSON o CSV |
+| 🎲 Generador seguro | Usa `secrets` (criptográficamente seguro) |
+| 🐳 Docker ready | Imagen lista para contenedores |
+| ✅ Tests incluidos | Suite con pytest + mocks |
 
 ---
 
-## ðŸ“‹ Requisitos
+## 📋 Requisitos
 
 - Python **3.10+**
 - pip
 
 ---
 
-## ðŸš€ InstalaciÃ³n
+## 🚀 Instalación
 
 ```bash
 git clone https://github.com/technssoluciones-dev/Pwned-PassChecker.git
 cd Pwned-PassChecker
 
-# InstalaciÃ³n rÃ¡pida
+# Instalación rápida
 python actualizacion_proyecto.py
 
 # O manualmente:
@@ -47,16 +45,16 @@ pip install -e .
 
 ---
 
-## ðŸ“– Uso
+## 📖 Uso
 
-### Verificar contraseÃ±a (modo interactivo)
+### Verificar contraseña (modo interactivo)
 
 ```bash
 pwned-checker check -i
-# â†’ Solicita contraseÃ±a sin mostrarla en pantalla
+# → Solicita contraseña sin mostrarla en pantalla
 ```
 
-### Verificar lista de contraseÃ±as
+### Verificar lista de contraseñas
 
 ```bash
 pwned-checker check -f sample_passwords.txt
@@ -64,16 +62,16 @@ pwned-checker check -f mis_claves.txt -o reports/resultado.json
 pwned-checker check -f mis_claves.txt -o reports/resultado.csv
 ```
 
-### Generar contraseÃ±as seguras
+### Generar contraseñas seguras
 
 ```bash
-# Una contraseÃ±a de 14 caracteres (default)
+# Una contraseña de 14 caracteres (default)
 pwned-checker generate
 
-# 5 contraseÃ±as de 20 caracteres
+# 5 contraseñas de 20 caracteres
 pwned-checker generate -n 5 -l 20
 
-# Sin sÃ­mbolos, sin ambigÃ¼edades (0,O,l,1â€¦)
+# Sin símbolos, sin ambigüedades (0,O,l,1…)
 pwned-checker generate -n 3 --no-symbols --no-ambiguous
 ```
 
@@ -87,7 +85,7 @@ python password_generator.py -l 18 -n 3
 
 ---
 
-## ðŸ³ Docker
+## 🐳 Docker
 
 ```bash
 # Construir imagen
@@ -105,10 +103,10 @@ docker run --rm -it \
 
 ---
 
-## ðŸ§ª Testing
+## 🧪 Testing
 
 ```bash
-# Tests bÃ¡sicos
+# Tests básicos
 pytest tests/ -v
 
 # Con cobertura
@@ -121,9 +119,9 @@ make test-cov
 
 ---
 
-## âš™ï¸ ConfiguraciÃ³n
+## ⚙️ Configuración
 
-Copia `.env.example` a `.env` y ajusta segÃºn necesites:
+Copia `.env.example` a `.env` y ajusta según necesites:
 
 ```bash
 cp .env.example .env
@@ -131,42 +129,41 @@ cp .env.example .env
 
 Variables disponibles:
 
-| Variable | Default | DescripciÃ³n |
+| Variable | Default | Descripción |
 |---|---|---|
 | `HIBP_TIMEOUT` | `10` | Timeout HTTP en segundos |
 | `HIBP_RETRIES` | `3` | Reintentos ante error |
 | `LOG_LEVEL` | `WARNING` | Nivel de log (`DEBUG`/`INFO`/`WARNING`) |
-| `LOG_FILE` | `` | Archivo de log (vacÃ­o = solo consola) |
+| `LOG_FILE` | `` | Archivo de log (vacío = solo consola) |
 | `DEFAULT_PWD_LENGTH` | `14` | Longitud default del generador |
 | `REPORTS_DIR` | `reports` | Directorio para reportes |
 
 ---
 
-## ðŸ—ï¸ Arquitectura
+## 🏗️ Arquitectura
 
 ```
 src/pwned_checker/
-â”œâ”€â”€ __init__.py     â† versiÃ³n y metadatos
-â”œâ”€â”€ config.py       â† configuraciÃ³n centralizada (.env)
-â”œâ”€â”€ logger.py       â† logging estructurado
-â”œâ”€â”€ checker.py      â† lÃ³gica HIBP con retry y k-Anonymity
-â”œâ”€â”€ generator.py    â† generador criptogrÃ¡fico
-â””â”€â”€ cli.py          â† interfaz CLI unificada (entry point)
+├── __init__.py     ← versión y metadatos
+├── config.py       ← configuración centralizada (.env)
+├── logger.py       ← logging estructurado
+├── checker.py      ← lógica HIBP con retry y k-Anonymity
+├── generator.py    ← generador criptográfico
+└── cli.py          ← interfaz CLI unificada (entry point)
 ```
 
 ---
 
-## ðŸ”’ Privacidad y Seguridad
+## 🔒 Privacidad y Seguridad
 
-- La contraseÃ±a **nunca** sale de tu mÃ¡quina completa
-- Solo se envÃ­an los **primeros 5 caracteres** del hash SHA-1
+- La contraseña **nunca** sale de tu máquina completa
+- Solo se envían los **primeros 5 caracteres** del hash SHA-1
 - Los reportes enmascaran passwords por defecto (`mi***...`)
 - Usa `--expose-passwords` solo en entornos privados y seguros
-- El generador usa `secrets` del mÃ³dulo estÃ¡ndar (CSPRNG)
+- El generador usa `secrets` del módulo estándar (CSPRNG)
 
 ---
 
-## ðŸ“„ Licencia
+## 📄 Licencia
 
-MIT Â© 2026 [technssoluciones-dev](https://github.com/technssoluciones-dev)
-
+MIT © 2026 [technssoluciones-dev](https://github.com/technssoluciones-dev)
