@@ -1,8 +1,13 @@
-# 🔐 Pwned PassChecker v2.0
+﻿# 🔐 Pwned PassChecker v2.0
 ![CI](https://github.com/technssoluciones-dev/Pwned-PassChecker/actions/workflows/ci.yml/badge.svg)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![HIBP](https://img.shields.io/badge/API-Have%20I%20Been%20Pwned-orange)](https://haveibeenpwned.com/API/v3)
+
+
+## 🎬 Demo
+
+![Demo](assets/demo.gif)
 
 Verificador de contraseñas filtradas con **Have I Been Pwned (HIBP)** usando **k-Anonymity** — nunca se envía la contraseña completa a la API. Incluye generador criptográficamente seguro.
 
@@ -167,3 +172,4 @@ src/pwned_checker/
 ## 📄 Licencia
 
 MIT © 2026 [technssoluciones-dev](https://github.com/technssoluciones-dev)
+
