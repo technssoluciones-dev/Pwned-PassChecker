@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CLI unificado para Pwned-PassChecker.
 Combina verificador + generador en una sola interfaz.
@@ -15,9 +15,8 @@ from pathlib import Path
 
 from . import __version__
 from .checker import CheckResult, CheckStatus, check_breach, check_passwords_from_list
-from .config  import config
-from .generator import GeneratorOptions, generate_multiple, generate_password
-
+from .config import config
+from .generator import GeneratorOptions, generate_multiple
 
 # ─── Helpers de presentación ──────────────────────────────────────────────
 
@@ -77,7 +76,7 @@ def cmd_check(args: argparse.Namespace) -> int:
             return 1
 
         raw_lines = fpath.read_text(encoding="utf-8").splitlines()
-        passwords = [l.strip() for l in raw_lines if l.strip() and not l.startswith("#")]
+        passwords = [line.strip() for line in raw_lines if line.strip() and not line.startswith("#")]
 
         if not passwords:
             print("⚠️  El archivo no contiene contraseñas válidas.", file=sys.stderr)

@@ -9,11 +9,12 @@ Fixtures disponibles:
 """
 from __future__ import annotations
 
-import pytest
+import os
+import sys
 from unittest.mock import MagicMock
 
-import sys
-import os
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 

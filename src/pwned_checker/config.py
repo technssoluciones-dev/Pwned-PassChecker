@@ -2,8 +2,10 @@
 Configuración centralizada via variables de entorno / .env
 """
 from __future__ import annotations
+
 import os
 from dataclasses import dataclass, field
+
 from dotenv import load_dotenv
 
 load_dotenv()  # carga .env si existe

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Tests para pwned_checker.cli
 
 Cubre:
@@ -11,14 +11,14 @@ Cubre:
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import json
-import sys
 import os
-import argparse
+import sys
+from unittest.mock import patch
+
 import pytest
-from pathlib import Path
-from unittest.mock import MagicMock, patch, mock_open
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
@@ -30,7 +30,6 @@ from pwned_checker.cli import (
     cmd_check,
     cmd_generate,
 )
-
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -293,14 +292,16 @@ class TestCmdGenerate:
         args = make_gen_namespace(number=5, length=12)
         code = cmd_generate(args)
         assert code == 0
-        lines = [l for l in capsys.readouterr().out.strip().splitlines() if l]
+        lines = [line for line in capsys.readouterr().out.strip().splitlines() if line]
         assert len(lines) == 5
 
     def test_generate_no_digits(self, capsys):
         args = make_gen_namespace(number=10, length=20, no_digits=True, no_symbols=True)
         cmd_generate(args)
         out = capsys.readouterr().out
-        passwords = [l.strip() for l in out.strip().splitlines() if l]
+        # Con number > 1 el CLI numera cada línea como "  1:  <password>",
+        # así que hay que quedarse solo con la contraseña tras el separador ":".
+        passwords = [line.split(":", 1)[1].strip() for line in out.strip().splitlines() if line]
         for pwd in passwords:
             assert not any(c.isdigit() for c in pwd)
 
@@ -309,7 +310,7 @@ class TestCmdGenerate:
         args = make_gen_namespace(number=10, length=20, no_symbols=True)
         cmd_generate(args)
         out = capsys.readouterr().out
-        passwords = [l.strip() for l in out.strip().splitlines() if l]
+        passwords = [line.split(":", 1)[1].strip() for line in out.strip().splitlines() if line]
         for pwd in passwords:
             assert not any(c in string.punctuation for c in pwd)
 

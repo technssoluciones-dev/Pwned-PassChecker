@@ -1,4 +1,4 @@
-"""
+﻿"""
 Generador de contraseñas criptográficamente seguro usando `secrets`.
 """
 from __future__ import annotations
@@ -33,10 +33,14 @@ AMBIGUOUS = set("0Ol1I|`")
 
 def _build_alphabet(opts: GeneratorOptions) -> str:
     parts: list[str] = []
-    if opts.use_upper:  parts.append(string.ascii_uppercase)
-    if opts.use_lower:  parts.append(string.ascii_lowercase)
-    if opts.use_digits: parts.append(string.digits)
-    if opts.use_symbols:parts.append(string.punctuation)
+    if opts.use_upper:
+        parts.append(string.ascii_uppercase)
+    if opts.use_lower:
+        parts.append(string.ascii_lowercase)
+    if opts.use_digits:
+        parts.append(string.digits)
+    if opts.use_symbols:
+        parts.append(string.punctuation)
 
     alphabet = "".join(parts)
     if not alphabet:
@@ -50,11 +54,13 @@ def _build_alphabet(opts: GeneratorOptions) -> str:
 
 def _satisfies(password: str, opts: GeneratorOptions) -> bool:
     """Verifica que la contraseña cumple todos los requisitos de composición."""
-    if opts.use_upper   and not any(c.isupper() for c in password):   return False
-    if opts.use_lower   and not any(c.islower() for c in password):   return False
-    if opts.use_digits  and not any(c.isdigit() for c in password):   return False
-    if opts.use_symbols and not any(c in string.punctuation for c in password): return False
-    return True
+    if opts.use_upper and not any(c.isupper() for c in password):
+        return False
+    if opts.use_lower and not any(c.islower() for c in password):
+        return False
+    if opts.use_digits and not any(c.isdigit() for c in password):
+        return False
+    return not (opts.use_symbols and not any(c in string.punctuation for c in password))
 
 
 def generate_password(opts: GeneratorOptions | None = None) -> str:

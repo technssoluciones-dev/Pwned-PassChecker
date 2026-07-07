@@ -2,8 +2,10 @@
 Logging estructurado para pwned_checker.
 """
 from __future__ import annotations
+
 import logging
 import sys
+
 from .config import config
 
 

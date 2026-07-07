@@ -3,18 +3,19 @@ Tests para pwned_checker.generator
 """
 from __future__ import annotations
 
+import os
 import string
+import sys
+
 import pytest
 
-import sys
-import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from pwned_checker.generator import (
-    GeneratorOptions,
-    generate_password,
-    generate_multiple,
     AMBIGUOUS,
+    GeneratorOptions,
+    generate_multiple,
+    generate_password,
 )
 
 

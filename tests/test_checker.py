@@ -4,20 +4,20 @@ Usa mocks para no depender de la red en CI.
 """
 from __future__ import annotations
 
-import sys
 import os
-import pytest
-import requests
+import sys
 from unittest.mock import MagicMock, patch
+
+import requests
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from pwned_checker.checker import (
-    CheckStatus,
     CheckResult,
-    hash_password,
+    CheckStatus,
     check_breach,
     check_passwords_from_list,
+    hash_password,
 )
 
 
