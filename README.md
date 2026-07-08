@@ -52,12 +52,16 @@ pip install -e .
 
 ### Verificar contraseña (modo interactivo)
 
+Consulta si una contraseña aparece en filtraciones conocidas (HIBP).
+
 ```bash
 pwned-checker check -i
 # → Solicita contraseña sin mostrarla en pantalla
 ```
 
 ### Verificar lista de contraseñas
+
+Analiza una lista de contraseñas y genera un reporte JSON o CSV.
 
 ```bash
 pwned-checker check -f sample_passwords.txt
@@ -66,6 +70,8 @@ pwned-checker check -f mis_claves.txt -o reports/resultado.csv
 ```
 
 ### Generar contraseñas seguras
+
+Crea contraseñas seguras con distintas opciones de formato.
 
 ```bash
 # Una contraseña de 14 caracteres (default)
