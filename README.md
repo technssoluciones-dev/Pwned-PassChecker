@@ -80,6 +80,18 @@ pwned-checker generate -n 5 -l 20
 pwned-checker generate -n 3 --no-symbols --no-ambiguous
 ```
 
+## ⚠️ Nota para Windows
+
+Si tras instalar el comando `pwned-checker` no se reconoce, es porque la carpeta
+`Scripts` de Python no está en tu PATH (advertencia común de pip). Dos soluciones:
+
+1. Usa el comando alternativo sin depender del PATH:
+   ```bash
+   python -m pwned_checker check -i
+   ```
+2. O agrega la carpeta Scripts a tu PATH (la ruta aparece en el mensaje de advertencia
+   de `pip install`), cierra y reabre la terminal.
+
 ### Scripts heredados (compatibilidad)
 
 ```bash
