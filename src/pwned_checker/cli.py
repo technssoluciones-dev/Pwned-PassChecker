@@ -63,6 +63,8 @@ def cmd_check(args: argparse.Namespace) -> int:
     results: list[CheckResult] = []
 
     if args.interactive:
+        print("\n=== Verificar (interactivo) ===", file=sys.stderr)
+        print("Consulta si una contraseña aparece en filtraciones conocidas (HIBP)\n", file=sys.stderr)
         print("🔒 Pwned PassChecker — Verificación interactiva")
         pwd = getpass.getpass("Contraseña a verificar: ")
         result = check_breach(pwd)
@@ -82,6 +84,8 @@ def cmd_check(args: argparse.Namespace) -> int:
             print("⚠️  El archivo no contiene contraseñas válidas.", file=sys.stderr)
             return 1
 
+        print("\n=== Verificar archivo con reporte ===", file=sys.stderr)
+        print("Analiza una lista de contraseñas y genera un reporte JSON o CSV\n", file=sys.stderr)
         print(f"🔍 Verificando {len(passwords)} contraseña(s)...\n")
         results = check_passwords_from_list(passwords)
 
@@ -105,6 +109,8 @@ def cmd_check(args: argparse.Namespace) -> int:
 
 def cmd_generate(args: argparse.Namespace) -> int:
     """Genera contraseñas seguras."""
+    print("\n=== Generar contraseñas (variantes) ===", file=sys.stderr)
+    print("Crea contraseñas seguras con distintas opciones de formato\n", file=sys.stderr)
     opts = GeneratorOptions(
         length             = args.length,
         use_digits         = not args.no_digits,
