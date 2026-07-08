@@ -40,8 +40,6 @@ Verificador de contraseñas filtradas con **Have I Been Pwned (HIBP)** usando **
 git clone https://github.com/technssoluciones-dev/Pwned-PassChecker.git
 cd Pwned-PassChecker
 
-# Instalación rápida
-python actualizacion_proyecto.py
 
 # O manualmente:
 pip install -r requirements.txt
