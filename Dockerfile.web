@@ -1,0 +1,29 @@
+﻿FROM python:3.12-slim AS builder
+
+WORKDIR /app
+COPY web/requirements-web.txt web/requirements-web.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir -r web/requirements-web.txt
+
+FROM python:3.12-slim
+
+RUN useradd --create-home --shell /bin/bash appuser
+WORKDIR /home/appuser/app
+
+COPY --from=builder /usr/local/lib/python3.12 /usr/local/lib/python3.12
+COPY --from=builder /usr/local/bin            /usr/local/bin
+
+COPY src/ src/
+COPY web/ web/
+
+RUN chown -R appuser:appuser /home/appuser/app
+USER appuser
+
+ENV PYTHONUNBUFFERED=1 \
+    LOG_LEVEL=WARNING \
+    PORT=8000
+
+EXPOSE 8000
+
+CMD ["sh", "-c", "uvicorn web.main:app --host 0.0.0.0 --port ${PORT}"]
